@@ -8,4 +8,5 @@
     <color name="red">#FF0000</color>
     <color name="green">#2ac119</color>
     <color name="tranparent">#00000000</color>
+    <color name="color_send">#1daec7</color>
 </resources>

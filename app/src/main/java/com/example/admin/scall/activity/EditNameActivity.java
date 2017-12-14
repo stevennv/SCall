@@ -85,7 +85,7 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
     private int isFull = 1;
     //    private InfoStyle infoStyle;
     private String fontStyle;
-    private int size;
+    private int size = 24;
     private Contact contact;
     private Animation animation;
     private RecyclerView rvEffect;
@@ -224,6 +224,7 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
                 tvName.setTextSize(infoStyle.getSize());
                 tvName.setTextColor(infoStyle.getColor());
                 sbTextSize.setProgress(infoStyle.getSize());
+                currentColor = infoStyle.getColor();
                 edtName.setText(infoStyle.getName());
                 if (infoStyle.getAnimation() != 0) {
                     Animation animation = AnimationUtils.loadAnimation(EditNameActivity.this, infoStyle.getAnimation());
@@ -239,6 +240,7 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
                 if (infoStyle.getIsFull() == 1) {
                     imgEffect.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 } else {
+                    checkFull.setChecked(true);
                     imgEffect.setScaleType(ImageView.ScaleType.FIT_XY);
                 }
 

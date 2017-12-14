@@ -1,6 +1,5 @@
 package com.example.admin.scall.receiver;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +8,8 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.admin.scall.activity.CallDetailActivity;
 import com.example.admin.scall.activity.DetailContactActivity;
-import com.example.admin.scall.activity.MainActivity;
 import com.example.admin.scall.model.InfoStyle;
 import com.example.admin.scall.utils.SqliteHelper;
 
@@ -23,14 +22,15 @@ import java.util.Date;
 public class CallReceiver extends BroadcastReceiver {
     private static int lastState = TelephonyManager.CALL_STATE_IDLE;
     private static Date callStartTime;
+    private static Date callEndTime;
     private static boolean isIncoming;
     private static String savedNumber;
     private SqliteHelper db;
+    private InfoStyle infoStyle;
     int state = 0;
 
     public void onCallStateChanged(Context context, int state, String number) {
         if (lastState == state) {
-            //No change, debounce extras
             return;
         }
         switch (state) {
@@ -39,9 +39,8 @@ public class CallReceiver extends BroadcastReceiver {
                 callStartTime = new Date();
                 savedNumber = number;
                 try {
-//                    db.getStyleByPhone(number);
                     Intent intent = new Intent(context, DetailContactActivity.class);
-                    InfoStyle infoStyle = db.getStyleByPhone(number);
+                    infoStyle = db.getStyleByPhone(number);
                     intent.putExtra("Info", infoStyle);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -59,16 +58,6 @@ public class CallReceiver extends BroadcastReceiver {
                     callStartTime = new Date();
                     Toast.makeText(context, "Outgoing Call Started", Toast.LENGTH_SHORT).show();
                 }
-
-//                try {
-//                    InfoStyle infoStyle = db.getStyleById(number);
-//                    Intent intent = new Intent(context, DetailContactActivity.class);
-//                    intent.putExtra("Info", infoStyle);
-//                    context.startActivity(intent);
-//                } catch (Exception e) {
-//                    Log.d("onCallStateChanged: ", "onCallStateChanged: " + e.getMessage());
-//                }
-
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
                 //Went to idle-  this is the end of a call.  What type depends on previous state(s)
@@ -77,7 +66,18 @@ public class CallReceiver extends BroadcastReceiver {
                     Toast.makeText(context, "Ringing but no pickup" + savedNumber + " Call time " + callStartTime + " Date " + new Date(), Toast.LENGTH_SHORT).show();
 
                 } else if (isIncoming) {
+                    callEndTime = new Date();
+                    Intent intent1 = new Intent(context, CallDetailActivity.class);
+                    if (infoStyle != null) {
+                        intent1.putExtra("Info", infoStyle);
+                    }
+                    intent1.putExtra("Phone_Number", savedNumber);
+                    intent1.putExtra("Time_Start", callStartTime.getTime());
+                    intent1.putExtra("Time_End", callEndTime.getTime());
+                    context.startActivity(intent1);
+
                     Toast.makeText(context, "Incoming " + savedNumber + " Call time " + callStartTime, Toast.LENGTH_SHORT).show();
+
                 } else {
 
                     Toast.makeText(context, "outgoing " + savedNumber + " Call time " + callStartTime + " Date " + new Date(), Toast.LENGTH_SHORT).show();
@@ -123,7 +123,6 @@ public class CallReceiver extends BroadcastReceiver {
                     onCallStateChanged(context, state, number);
                 }
             }.start();
-            TelephonyManager telephonyManager;
 
         }
     }

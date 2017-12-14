@@ -1,20 +1,13 @@
 package com.example.admin.scall.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.RemoteException;
-import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,15 +15,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.internal.telephony.ITelephony;
 import com.bumptech.glide.Glide;
 import com.example.admin.scall.R;
-import com.example.admin.scall.activity.customview.CallSliderView;
 import com.example.admin.scall.model.Contact;
 import com.example.admin.scall.model.InfoStyle;
-import com.example.admin.scall.utils.SqliteHelper;
 import com.google.gson.Gson;
 import com.hanks.htextview.rainbow.RainbowTextView;
 import com.waynell.library.DropAnimationView;
@@ -40,7 +30,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 
@@ -177,7 +166,8 @@ public class DetailContactActivity extends BaseActivity implements View.OnClickL
                     ITelephony telephonyService = (ITelephony) m.invoke(tm);
                     telephonyService.silenceRinger();
                     telephonyService.endCall();
-
+                    int pid = android.os.Process.myPid();
+                    android.os.Process.killProcess(pid);
                 } catch (Exception e) {
                     Log.d("getITelephony", "onClick: " + e.getMessage());
                     e.printStackTrace();

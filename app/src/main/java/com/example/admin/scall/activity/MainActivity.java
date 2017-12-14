@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity {
         MobileAds.initialize(this, getString(R.string.admob_app_id));
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SEND_SMS},
                 RECORD_REQUEST_CODE);
         iniUI();
 
