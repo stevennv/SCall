@@ -1,13 +1,11 @@
 package com.example.admin.scall.activity;
 
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.admin.scall.R;
-import com.example.admin.scall.receiver.CallReceiver;
 import com.example.admin.scall.utils.SqliteHelper;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -21,18 +19,11 @@ public class BaseActivity extends AppCompatActivity {
     public static int countActivity = 0;
     InterstitialAd mInterstitialAd;
     public static boolean isCalling = false;
-    private IntentFilter mIntentFilter;
-    private CallReceiver receiver;
     public static SqliteHelper db;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mIntentFilter = new IntentFilter();
-        receiver = new CallReceiver();
-        mIntentFilter.addAction("android.intent.action.PHONE_STATE");
-        mIntentFilter.addAction("android.intent.action.NEW_OUTGOING_CALL");
-        registerReceiver(receiver, mIntentFilter);
         db = new SqliteHelper(this);
         AdListener adListener = new AdListener() {
             @Override
@@ -84,6 +75,5 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(receiver);
     }
 }

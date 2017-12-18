@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,15 +32,12 @@ import com.example.admin.scall.fragment.ListContactFragment;
 import com.example.admin.scall.fragment.ListCustomFragment;
 import com.example.admin.scall.model.Contact;
 import com.example.admin.scall.model.InfoStyle;
-import com.example.admin.scall.service.CallService;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,22 +57,21 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        MobileAds.initialize(this, getString(R.string.admob_app_id));
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SEND_SMS},
                 RECORD_REQUEST_CODE);
-        iniUI();
+        setContentView(R.layout.activity_main);
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
 
-        startService();
+        iniUI();
     }
 
     private void iniUI() {
-        list1 = db.getAllStyle();
-        for (int i = 0; i < list1.size(); i++) {
-            Log.d("iniUI:", "iniUI: " + list1.get(i).getPhone() + "  " + list1.get(i).getId());
-        }
+//        list1 = db.getAllStyle();
+//        for (int i = 0; i < list1.size(); i++) {
+//            Log.d("iniUI:", "iniUI: " + list1.get(i).getPhone() + "  " + list1.get(i).getId());
+//        }
         gson = new Gson();
 //        toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -168,10 +166,10 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         dialog = new ConfirmQuitDialog(this, getString(R.string.confirm_quit), getString(R.string.ok),
                 getString(R.string.cancel), new ConfirmQuitDialog.clickBtn1() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void click() {
-                int pid = android.os.Process.myPid();
-                android.os.Process.killProcess(pid);
+                finishAffinity();
             }
         }, new ConfirmQuitDialog.clickBtn2() {
             @Override
@@ -225,11 +223,4 @@ public class MainActivity extends BaseActivity {
             return TITLES.length;
         }
     }
-
-    private void startService() {
-//        Intent intentService = new Intent(this, CallService.class);
-//        startService(intentService);
-        startService(new Intent(getBaseContext(), CallService.class));
-    }
-
 }

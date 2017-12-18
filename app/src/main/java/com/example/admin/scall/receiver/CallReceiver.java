@@ -97,6 +97,8 @@ public class CallReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
         db = new SqliteHelper(context);
+        String content = intent.getAction();
+        Log.d("onReceive123123123123: ", "onReceive: "+ content);
         if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
             savedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
 
