@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.OnBoardingActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,9 +57,9 @@
         </receiver>
 
 
-        <!--<activity-->
-            <!--android:name=".activity.MainActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CallDetailActivity"
             android:screenOrientation="portrait" />

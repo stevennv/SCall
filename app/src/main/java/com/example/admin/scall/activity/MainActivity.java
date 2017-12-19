@@ -68,15 +68,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void iniUI() {
-//        list1 = db.getAllStyle();
-//        for (int i = 0; i < list1.size(); i++) {
-//            Log.d("iniUI:", "iniUI: " + list1.get(i).getPhone() + "  " + list1.get(i).getId());
-//        }
         gson = new Gson();
-//        toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        tvTitleToolbar = findViewById(R.id.tv_title_toolbar);
-//        tvTitleToolbar.setText(getString(R.string.app_name));
         adView = (AdView) findViewById(R.id.adView);
         refreshLayout = findViewById(R.id.refresh);
         tabs = findViewById(R.id.tabs);
