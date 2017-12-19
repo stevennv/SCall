@@ -46,7 +46,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_STYLE + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NAME + " TEXT,"
                 + KEY_PHONE + " TEXT," + KEY_FONT + " TEXT," + KEY_URL_IMAGE + " TEXT,"
                 + KEY_COLOR + " INTEGER," + KEY_SIZE + " INTEGER," + KEY_ANIMATION + " INTEGER,"
                 + KEY_ICON + " TEXT," + KEY_FULL + " INTEGER )";
@@ -70,7 +70,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
     public void addStyle(InfoStyle style) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, style.getId());
+//        values.put(KEY_ID, style.getId());
         values.put(KEY_NAME, style.getName()); // Contact Name
         values.put(KEY_PHONE, style.getPhone()); // Contact Phone
         values.put(KEY_FONT, style.getFont()); // Contact Phone

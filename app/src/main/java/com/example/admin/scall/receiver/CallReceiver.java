@@ -12,6 +12,7 @@ import com.example.admin.scall.activity.CallDetailActivity;
 import com.example.admin.scall.activity.DetailContactActivity;
 import com.example.admin.scall.model.InfoStyle;
 import com.example.admin.scall.utils.SqliteHelper;
+import com.example.admin.scall.utils.Utils;
 
 import java.util.Date;
 
@@ -68,9 +69,13 @@ public class CallReceiver extends BroadcastReceiver {
                 } else if (isIncoming) {
                     callEndTime = new Date();
                     Intent intent1 = new Intent(context, CallDetailActivity.class);
-                    if (infoStyle != null) {
+                    try {
+                        infoStyle = db.getStyleByPhone(number);
                         intent1.putExtra("Info", infoStyle);
+                    } catch (Exception e) {
+
                     }
+
                     intent1.putExtra("Phone_Number", savedNumber);
                     intent1.putExtra("Time_Start", callStartTime.getTime());
                     intent1.putExtra("Time_End", callEndTime.getTime());
@@ -98,7 +103,7 @@ public class CallReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
         db = new SqliteHelper(context);
         String content = intent.getAction();
-        Log.d("onReceive123123123123: ", "onReceive: "+ content);
+        Log.d("onReceive123123123123: ", "onReceive: " + content);
         if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
             savedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
 
@@ -122,7 +127,7 @@ public class CallReceiver extends BroadcastReceiver {
 
                 @Override
                 public void onFinish() {
-                    onCallStateChanged(context, state, number);
+                    onCallStateChanged(context, state, Utils.formatNumber(number));
                 }
             }.start();
 

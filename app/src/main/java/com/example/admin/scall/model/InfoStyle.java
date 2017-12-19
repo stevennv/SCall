@@ -20,6 +20,18 @@ public class InfoStyle implements Serializable {
         this.isFull = isFull;
     }
 
+    public InfoStyle(String name, String phone, String font, String urlImage, int color, int size, int animation, String listIcon, int isFull) {
+        this.phone = phone;
+        this.name = name;
+        this.font = font;
+        this.color = color;
+        this.size = size;
+        this.urlImage = urlImage;
+        this.animation = animation;
+        this.listIcon = listIcon;
+        this.isFull = isFull;
+    }
+
     public InfoStyle(String name, String phone, String font, int color, int size) {
         this.phone = phone;
         this.name = name;

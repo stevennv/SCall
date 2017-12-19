@@ -122,7 +122,7 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_edit_name);
-        MobileAds.initialize(this, getString(R.string.admob_app_id));
+//        MobileAds.initialize(this, getString(R.string.admob_app_id));
         iniUI();
     }
 
@@ -173,9 +173,9 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
         tvAnotherEffect = findViewById(R.id.tv_another_effect);
         checkBox = findViewById(R.id.checkbox);
         checkFull = findViewById(R.id.check_full);
-        adView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+//        adView = findViewById(R.id.adView);
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        adView.loadAd(adRequest);
         tvChangeBackground = findViewById(R.id.tv_change_background);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         layoutManagerSelected = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -415,12 +415,12 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
                     }
 //                    if (!checkIcon(arraySelected)) {
                     listIconString = gson.toJson(arraySelected);
-                    InfoStyle infoStyle = new InfoStyle(id, edtName.getText().toString(), formatNumber(phone),
+                    InfoStyle infoStyle = new InfoStyle( edtName.getText().toString(), formatNumber(phone),
                             fontStyle, imagePath, currentColor, size, animation1, listIconString, isFull);
                     saveAndUpdateStyle(infoStyle);
 //                    }
                 } else {
-                    InfoStyle infoStyle = new InfoStyle(id, edtName.getText().toString(), formatNumber(phone),
+                    InfoStyle infoStyle = new InfoStyle( edtName.getText().toString(), formatNumber(phone),
                             fontStyle, imagePath, currentColor, size, animation1, listIconString, isFull);
                     saveAndUpdateStyle(infoStyle);
                 }
@@ -463,13 +463,13 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
                 if (isAnother) {
 //                    if (!checkIcon(arraySelected)) {
                     listIconString = gson.toJson(arraySelected);
-                    infoStyle2 = new InfoStyle(id, edtName.getText().toString(), phone, fontStyle,
+                    infoStyle2 = new InfoStyle( edtName.getText().toString(), phone, fontStyle,
                             imagePath, currentColor, size, animation1, listIconString, isFull);
 //                    } else {
 //                        Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show();
 //                    }
                 } else {
-                    infoStyle2 = new InfoStyle(id, edtName.getText().toString(), phone, fontStyle,
+                    infoStyle2 = new InfoStyle( edtName.getText().toString(), phone, fontStyle,
                             imagePath, currentColor, size, animation1, listIconString, isFull);
                 }
                 Intent i = new Intent(this, DetailContactActivity.class);
@@ -483,7 +483,7 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
 
     private void saveAndUpdateStyle(InfoStyle info) {
         try {
-            db.getStyleById(String.valueOf(id));
+            db.getStyleByPhone(formatNumber(phone));
             db.updateStyle(info);
             Log.d("saveAndUpdateStyle: ", "saveAndUpdateStyle: " + db.updateStyle(info));
             Toast.makeText(this, "Update", Toast.LENGTH_SHORT).show();

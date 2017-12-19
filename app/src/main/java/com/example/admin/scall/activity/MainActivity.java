@@ -59,16 +59,20 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SEND_SMS},
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SEND_SMS, Manifest.permission.PROCESS_OUTGOING_CALLS},
                 RECORD_REQUEST_CODE);
         setContentView(R.layout.activity_main);
-        MobileAds.initialize(this, getString(R.string.admob_app_id));
+//        MobileAds.initialize(this, getString(R.string.admob_app_id));
 
         iniUI();
     }
 
     private void iniUI() {
         gson = new Gson();
+        List<InfoStyle> list2 = db.getAllStyle();
+        for (int i = 0; i < list2.size(); i++) {
+            Log.e("iniUI: ", "iniUI: " + list2.get(i).getId());
+        }
         adView = (AdView) findViewById(R.id.adView);
         refreshLayout = findViewById(R.id.refresh);
         tabs = findViewById(R.id.tabs);
@@ -79,8 +83,8 @@ public class MainActivity extends BaseActivity {
         tabs.setTextColor(0xffffffff);
         viewPager = findViewById(R.id.viewpager);
 
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+        /*AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);*/
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

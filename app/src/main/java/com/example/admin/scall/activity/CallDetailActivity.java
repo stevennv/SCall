@@ -1,10 +1,13 @@
 package com.example.admin.scall.activity;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.provider.Contacts;
+import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +23,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.admin.scall.R;
 import com.example.admin.scall.dialog.MessageDialog;
+import com.example.admin.scall.model.Contact;
 import com.example.admin.scall.model.InfoStyle;
 import com.google.gson.Gson;
 import com.hanks.htextview.rainbow.RainbowTextView;
@@ -152,7 +156,13 @@ public class CallDetailActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.tv_edit:
                 Intent intent2 = new Intent(this, EditNameActivity.class);
-                intent2.putExtra("Style", infoStyle);
+                if (infoStyle != null) {
+                    intent2.putExtra("Style", infoStyle);
+                } else {
+                    intent2.putExtra("Main", "Abc");
+                    Contact contact = new Contact(phone, phone);
+                    intent2.putExtra("Contact", contact);
+                }
                 startActivity(intent2);
                 break;
         }

@@ -30,7 +30,7 @@ public class BaseActivity extends AppCompatActivity {
             public void onAdLoaded() {
                 super.onAdLoaded();
 
-                mInterstitialAd.show();
+//                mInterstitialAd.show();
             }
 
             @Override
@@ -54,13 +54,13 @@ public class BaseActivity extends AppCompatActivity {
             }
         };
         countActivity++;
-        if (countActivity == 2) {
-            mInterstitialAd = new InterstitialAd(this);
-            mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ads));
-            mInterstitialAd.setAdListener(adListener);
-            countActivity = 0;
-            requestNewInterstitial();
-        }
+//        if (countActivity == 2) {
+//            mInterstitialAd = new InterstitialAd(this);
+//            mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ads));
+//            mInterstitialAd.setAdListener(adListener);
+//            countActivity = 0;
+////            requestNewInterstitial();
+//        }
         Log.d("onCreate123:", "onCreate: " + countActivity);
     }
 
