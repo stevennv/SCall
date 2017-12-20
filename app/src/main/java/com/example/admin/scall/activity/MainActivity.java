@@ -2,7 +2,6 @@ package com.example.admin.scall.activity;
 
 import android.Manifest;
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
@@ -32,9 +31,7 @@ import com.example.admin.scall.fragment.ListContactFragment;
 import com.example.admin.scall.fragment.ListCustomFragment;
 import com.example.admin.scall.model.Contact;
 import com.example.admin.scall.model.InfoStyle;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -126,7 +123,7 @@ public class MainActivity extends BaseActivity {
                                 Phone.NUMBER));
                         Log.i("GET_INFO", "Name: " + name);
                         Log.i("GET_INFO", "Phone Number: " + phoneNo);
-                        Contact contact = new Contact(id1, phoneNo, name);
+                        Contact contact = new Contact(name, phoneNo);
                         list.add(contact);
                     }
                     pCur.close();

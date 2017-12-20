@@ -60,21 +60,21 @@ public class Contact implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    private int id;
+//    private int id;
 
-    public int getId() {
-        return id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Contact(int id, String phoneNumber, String name) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.id = id;
-    }
+//    public Contact(String phoneNumber, String name) {
+//        this.name = name;
+//        this.phoneNumber = phoneNumber;
+//
+//    }
 
 
 }

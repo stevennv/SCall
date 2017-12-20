@@ -1,5 +1,6 @@
 package com.example.admin.scall.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -38,6 +40,7 @@ import com.example.admin.scall.adapter.EffectAdapter;
 import com.example.admin.scall.adapter.FontAdapter;
 import com.example.admin.scall.adapter.IconAdapter;
 import com.example.admin.scall.adapter.SelectedAdapter;
+import com.example.admin.scall.dialog.ConfirmDialog;
 import com.example.admin.scall.dialog.ConfirmQuitDialog;
 import com.example.admin.scall.model.Contact;
 import com.example.admin.scall.model.InfoStyle;
@@ -249,7 +252,7 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
 
                 contact = (Contact) getIntent().getSerializableExtra("Contact");
                 name = contact.getName();
-                id = contact.getId();
+//                id = contact.getId();
                 phone = contact.getPhoneNumber();
                 tvName.setText(contact.getName());
                 size = 24;
@@ -408,22 +411,18 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.img_menu_toolbar:
 
-                if (isAnother) {
-                    arraySelected = new int[listSelected.size()];
-                    for (int i = 0; i < listSelected.size(); i++) {
-                        arraySelected[i] = listSelected.get(i);
-                    }
-//                    if (!checkIcon(arraySelected)) {
-                    listIconString = gson.toJson(arraySelected);
-                    InfoStyle infoStyle = new InfoStyle( edtName.getText().toString(), formatNumber(phone),
-                            fontStyle, imagePath, currentColor, size, animation1, listIconString, isFull);
-                    saveAndUpdateStyle(infoStyle);
-//                    }
-                } else {
-                    InfoStyle infoStyle = new InfoStyle( edtName.getText().toString(), formatNumber(phone),
-                            fontStyle, imagePath, currentColor, size, animation1, listIconString, isFull);
-                    saveAndUpdateStyle(infoStyle);
+//                if (isAnother) {
+                arraySelected = new int[listSelected.size()];
+                for (int i = 0; i < listSelected.size(); i++) {
+                    arraySelected[i] = listSelected.get(i);
                 }
+//                    if (!checkIcon(arraySelected)) {
+                listIconString = gson.toJson(arraySelected);
+                InfoStyle infoStyle = new InfoStyle(edtName.getText().toString(), formatNumber(phone),
+                        fontStyle, imagePath, currentColor, size, animation1, listIconString, isFull);
+                saveAndUpdateStyle(infoStyle);
+//                    }
+//                }
                 break;
             case R.id.tv_change_background:
                 ConfirmQuitDialog dialog3 = new ConfirmQuitDialog(this, getString(R.string.choose_picture), getString(R.string.gallery),
@@ -463,13 +462,13 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
                 if (isAnother) {
 //                    if (!checkIcon(arraySelected)) {
                     listIconString = gson.toJson(arraySelected);
-                    infoStyle2 = new InfoStyle( edtName.getText().toString(), phone, fontStyle,
+                    infoStyle2 = new InfoStyle(edtName.getText().toString(), phone, fontStyle,
                             imagePath, currentColor, size, animation1, listIconString, isFull);
 //                    } else {
 //                        Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show();
 //                    }
                 } else {
-                    infoStyle2 = new InfoStyle( edtName.getText().toString(), phone, fontStyle,
+                    infoStyle2 = new InfoStyle(edtName.getText().toString(), phone, fontStyle,
                             imagePath, currentColor, size, animation1, listIconString, isFull);
                 }
                 Intent i = new Intent(this, DetailContactActivity.class);
@@ -482,15 +481,42 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void saveAndUpdateStyle(InfoStyle info) {
-        try {
-            db.getStyleByPhone(formatNumber(phone));
-            db.updateStyle(info);
-            Log.d("saveAndUpdateStyle: ", "saveAndUpdateStyle: " + db.updateStyle(info));
-            Toast.makeText(this, "Update", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
+        if (id != 0) {
+            InfoStyle info1 = new InfoStyle(id, edtName.getText().toString(), formatNumber(phone),
+                    fontStyle, imagePath, currentColor, size, animation1, listIconString, isFull);
+            db.updateStyle(info1);
+            ConfirmDialog dialog = new ConfirmDialog(this, "Updated", new ConfirmDialog.clickConfirm() {
+                @Override
+                public void click() {
+                    finish();
+                }
+            });
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.setCancelable(true);
+            dialog.show();
+        } else {
             db.addStyle(info);
-            Toast.makeText(this, "Add", Toast.LENGTH_SHORT).show();
+            ConfirmDialog dialog = new ConfirmDialog(this, "Added", new ConfirmDialog.clickConfirm() {
+                @Override
+                public void click() {
+                    finish();
+                }
+            });
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.setCancelable(true);
+            dialog.show();
         }
+//        try {
+//            db.getStyleByPhone(formatNumber(phone));
+//            db.updateStyle(info);
+//            Log.d("saveAndUpdateStyle: ", "saveAndUpdateStyle: " + db.updateStyle(info));
+//            Toast.makeText(this, "Update", Toast.LENGTH_SHORT).show();
+//        } catch (Exception e) {
+//            db.addStyle(info);
+//            Toast.makeText(this, "Add", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     private String formatNumber(String number) {

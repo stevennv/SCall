@@ -47,6 +47,7 @@
             android:text="@string/preview"
             android:textSize="20sp"
             app:colorSpace="150dp"
+            android:visibility="gone"
             app:colorSpeed="4dp" />
     </RelativeLayout>
 
