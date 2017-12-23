@@ -530,18 +530,19 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IMAGE_GALLERY) {
             ImagePickerActivity.ImageReceiver receiver = new ImagePickerActivity.ImageReceiver(data);
             imagePath = receiver.getCroppedPath();
             Glide.with(this).load(imagePath).into(imgEffect);
         } else if (requestCode == IMAGE_CAMERA) {
-            if (data.getData() == null) {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                if (photo != null) {
-                    final File file = savebitmap(photo);
-                    imagePath = file.getPath();
-                    Glide.with(this).load(imagePath).into(imgEffect);
+            if (resultCode == RESULT_OK) {
+                if (data.getData() == null) {
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    if (photo != null) {
+                        final File file = savebitmap(photo);
+                        imagePath = file.getPath();
+                        Glide.with(this).load(imagePath).into(imgEffect);
+                    }
                 }
             }
         }

@@ -36,14 +36,11 @@ public class ListContactFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private ContactAdapter adapter;
     private List<Contact> list;
-    private Gson gson;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
-        gson = new Gson();
         ibSearch = view.findViewById(R.id.ib_search);
         edtSearch = view.findViewById(R.id.edt_search);
         rvContact = view.findViewById(R.id.rv_contact);
@@ -55,7 +52,6 @@ public class ListContactFragment extends Fragment {
             String content = getArguments().getString("ListContact");
             Type listType = new TypeToken<ArrayList<Contact>>() {
             }.getType();
-//            String venueStringRecvFromFragArg = getArguments().getString("VENUES");
             list = new Gson().fromJson(content, listType);
             adapter = new ContactAdapter(getContext(), list);
             adapter.notifyDataSetChanged();
