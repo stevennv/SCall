@@ -31,7 +31,10 @@ import com.example.admin.scall.fragment.ListContactFragment;
 import com.example.admin.scall.fragment.ListCustomFragment;
 import com.example.admin.scall.model.Contact;
 import com.example.admin.scall.model.InfoStyle;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -49,7 +52,7 @@ public class MainActivity extends BaseActivity {
     private PagerSlidingTabStrip tabs;
     private ViewPager viewPager;
     private Gson gson;
-    private SwipeRefreshLayout refreshLayout;
+//    private SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +61,9 @@ public class MainActivity extends BaseActivity {
                 new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SEND_SMS, Manifest.permission.PROCESS_OUTGOING_CALLS},
                 RECORD_REQUEST_CODE);
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
         setContentView(R.layout.activity_main);
-//        MobileAds.initialize(this, getString(R.string.admob_app_id));
+
 
         iniUI();
     }
@@ -71,27 +75,29 @@ public class MainActivity extends BaseActivity {
             Log.e("iniUI: ", "iniUI: " + list2.get(i).getId());
         }
         adView = (AdView) findViewById(R.id.adView);
-        refreshLayout = findViewById(R.id.refresh);
+//        adView.setAdUnitId(getString(R.string.admob_app_id));
+//        adView.loadAd(adRequest);
+//        refreshLayout = findViewById(R.id.refresh);
         tabs = findViewById(R.id.tabs);
         tabs.setShouldExpand(true);
-        tabs.setIndicatorColor(0xffffffff);
+        tabs.setIndicatorColor(0xff2ac119);
         tabs.setIndicatorHeight(10);
         tabs.setBackgroundColor(0xff4a2a71);
-        tabs.setTextColor(0xffffffff);
+        tabs.setTextColor(0xff2ac119);
         viewPager = findViewById(R.id.viewpager);
 
-        /*AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);*/
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getContactList();
-                list1 = db.getAllStyle();
-                ListPagerAdapter adapter = new ListPagerAdapter(getSupportFragmentManager());
-                viewPager.setAdapter(adapter);
-                refreshLayout.setRefreshing(false);
-            }
-        });
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+//        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                getContactList();
+//                list1 = db.getAllStyle();
+//                ListPagerAdapter adapter = new ListPagerAdapter(getSupportFragmentManager());
+//                viewPager.setAdapter(adapter);
+//                refreshLayout.setRefreshing(false);
+//            }
+//        });
         File rootPath = new File(Environment.getExternalStorageDirectory(), "Scall");
         if (!rootPath.exists()) {
             rootPath.mkdirs();

@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.admin.scall.activity.CallDetailActivity;
 import com.example.admin.scall.activity.DetailContactActivity;
 import com.example.admin.scall.model.InfoStyle;
 import com.example.admin.scall.utils.SqliteHelper;
-import com.example.admin.scall.utils.Utils;
 
 import java.util.Date;
 
@@ -32,6 +30,7 @@ public class CallReceiver extends BroadcastReceiver {
 
     public void onCallStateChanged(Context context, int state, String number) {
         if (lastState == state) {
+            //No change, debounce extras
             return;
         }
         switch (state) {
@@ -40,15 +39,16 @@ public class CallReceiver extends BroadcastReceiver {
                 callStartTime = new Date();
                 savedNumber = number;
                 try {
+//                    db.getStyleByPhone(number);
                     Intent intent = new Intent(context, DetailContactActivity.class);
-                    infoStyle = db.getStyleByPhone(number);
+                    InfoStyle infoStyle = db.getStyleByPhone(number);
                     intent.putExtra("Info", infoStyle);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
-                    Toast.makeText(context, "Incoming Call Ringing", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "Incoming Call Ringing", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.d("onCallStateChanged:", "onCallStateChanged: " + e.getMessage());
                 }
                 break;
@@ -57,14 +57,25 @@ public class CallReceiver extends BroadcastReceiver {
                 if (lastState != TelephonyManager.CALL_STATE_RINGING) {
                     isIncoming = false;
                     callStartTime = new Date();
-                    Toast.makeText(context, "Outgoing Call Started", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "Outgoing Call Started", Toast.LENGTH_SHORT).show();
                 }
+
+//                try {
+//                    InfoStyle infoStyle = db.getStyleById(number);
+//                    Intent intent = new Intent(context, DetailContactActivity.class);
+//                    intent.putExtra("Info", infoStyle);
+//                    context.startActivity(intent);
+//                } catch (Exception e) {
+//                    Log.d("onCallStateChanged: ", "onCallStateChanged: " + e.getMessage());
+//                }
+
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
                 //Went to idle-  this is the end of a call.  What type depends on previous state(s)
                 if (lastState == TelephonyManager.CALL_STATE_RINGING) {
                     //Ring but no pickup-  a miss
-                    Toast.makeText(context, "Ringing but no pickup" + savedNumber + " Call time " + callStartTime + " Date " + new Date(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "Ringing but no pickup" + savedNumber + " Call time " + callStartTime + " Date " + new Date(), Toast.LENGTH_SHORT).show();
+                    DetailContactActivity.myDialog.finish();
 
                 } else if (isIncoming) {
                     callEndTime = new Date();
@@ -80,12 +91,15 @@ public class CallReceiver extends BroadcastReceiver {
                     intent1.putExtra("Time_Start", callStartTime.getTime());
                     intent1.putExtra("Time_End", callEndTime.getTime());
                     context.startActivity(intent1);
-
-                    Toast.makeText(context, "Incoming " + savedNumber + " Call time " + callStartTime, Toast.LENGTH_SHORT).show();
-
+//                    Toast.makeText(context, "Incoming " + savedNumber + " Call time " + callStartTime, Toast.LENGTH_SHORT).show();
+                    try {
+                        DetailContactActivity.myDialog.finish();
+                    } catch (Exception e) {
+                        Log.e("onCallStateChanged:", "onCallStateChanged: " + e.getMessage());
+                    }
                 } else {
 
-                    Toast.makeText(context, "outgoing " + savedNumber + " Call time " + callStartTime + " Date " + new Date(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "outgoing " + savedNumber + " Call time " + callStartTime + " Date " + new Date(), Toast.LENGTH_SHORT).show();
 
                 }
                 try {
@@ -102,8 +116,6 @@ public class CallReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
         db = new SqliteHelper(context);
-        String content = intent.getAction();
-        Log.d("onReceive123123123123: ", "onReceive: " + content);
         if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
             savedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
 
@@ -127,11 +139,10 @@ public class CallReceiver extends BroadcastReceiver {
 
                 @Override
                 public void onFinish() {
-                    onCallStateChanged(context, state, Utils.formatNumber(number));
+                    onCallStateChanged(context, state, number);
                 }
             }.start();
 
         }
     }
 }
-

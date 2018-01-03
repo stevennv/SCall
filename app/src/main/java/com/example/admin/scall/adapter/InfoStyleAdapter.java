@@ -8,22 +8,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.example.admin.scall.R;
 import com.example.admin.scall.activity.EditNameActivity;
 import com.example.admin.scall.model.InfoStyle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by admin on 12/8/2017.
  */
 
-public class InfoStyleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class InfoStyleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SectionIndexer {
     private Context context;
     private List<InfoStyle> list;
-
+    private ArrayList<Integer> mSectionPositions;
     public InfoStyleAdapter(Context context, List<InfoStyle> list) {
         this.context = context;
         this.list = list;
@@ -60,6 +62,30 @@ public class InfoStyleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @Override
+    public Object[] getSections() {
+        List<String> sections = new ArrayList<>(26);
+        mSectionPositions = new ArrayList<>(26);
+        for (int i = 0, size = list.size(); i < size; i++) {
+            String section = String.valueOf(list.get(i).getName().charAt(0)).toUpperCase();
+            if (!sections.contains(section)) {
+                sections.add(section);
+                mSectionPositions.add(i);
+            }
+        }
+        return sections.toArray(new String[0]);
+    }
+
+    @Override
+    public int getPositionForSection(int i) {
+        return mSectionPositions.get(i);
+    }
+
+    @Override
+    public int getSectionForPosition(int i) {
+        return 0;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

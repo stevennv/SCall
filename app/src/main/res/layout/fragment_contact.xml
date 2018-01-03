@@ -24,7 +24,7 @@
             android:layout_toLeftOf="@+id/ib_search" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView
         android:id="@+id/rv_contact"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

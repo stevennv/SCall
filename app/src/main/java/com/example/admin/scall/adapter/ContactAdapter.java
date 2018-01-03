@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.example.admin.scall.R;
@@ -26,12 +27,12 @@ import java.util.Locale;
  * Created by Admin on 11/21/2017.
  */
 
-public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SectionIndexer {
     private Context context;
     private List<Contact> list;
     private SqliteHelper db;
     private ArrayList<Contact> arraylist;
-
+    private ArrayList<Integer> mSectionPositions;
     public ContactAdapter(Context context, List<Contact> list) {
         this.context = context;
         this.list = list;
@@ -76,6 +77,30 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @Override
+    public Object[] getSections() {
+        List<String> sections = new ArrayList<>(26);
+        mSectionPositions = new ArrayList<>(26);
+        for (int i = 0, size = list.size(); i < size; i++) {
+            String section = String.valueOf(list.get(i).getName().charAt(0)).toUpperCase();
+            if (!sections.contains(section)) {
+                sections.add(section);
+                mSectionPositions.add(i);
+            }
+        }
+        return sections.toArray(new String[0]);
+    }
+
+    @Override
+    public int getPositionForSection(int i) {
+        return mSectionPositions.get(i);
+    }
+
+    @Override
+    public int getSectionForPosition(int i) {
+        return 0;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

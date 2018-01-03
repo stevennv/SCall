@@ -52,6 +52,13 @@
             app:colorSpeed="4dp" />
     </RelativeLayout>
 
+    <EditText
+        android:id="@+id/edt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_10"
+        android:textColor="@color/black" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -68,12 +75,38 @@
                 android:orientation="vertical">
 
 
-                <EditText
-                    android:id="@+id/edt_name"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_10"
-                    android:textColor="@color/black" />
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tv_another_effect"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/padding_10"
+                        android:padding="@dimen/padding_10"
+                        android:text="@string/another_effect"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_16" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_list_selected"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_list_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/padding_10" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -193,38 +226,7 @@
                     android:layout_marginTop="@dimen/padding_10"
                     android:background="@color/black" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/tv_another_effect"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_10"
-                        android:padding="@dimen/padding_10"
-                        android:text="@string/another_effect"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_16" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true" />
-                </RelativeLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_list_selected"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_list_icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/padding_10" />
             </LinearLayout>
         </ScrollView>
 
@@ -235,6 +237,6 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+            ads:adUnitId="@string/admob_app_id" />
     </RelativeLayout>
 </LinearLayout>

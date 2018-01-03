@@ -1,6 +1,7 @@
 package com.example.admin.scall.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +27,7 @@ import com.example.admin.scall.R;
 import com.example.admin.scall.dialog.MessageDialog;
 import com.example.admin.scall.model.Contact;
 import com.example.admin.scall.model.InfoStyle;
+import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 import com.hanks.htextview.rainbow.RainbowTextView;
 import com.waynell.library.DropAnimationView;
@@ -34,7 +37,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-public class CallDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class CallDetailActivity extends BaseActivity implements View.OnClickListener {
     private ImageView imgEffect;
     private RainbowTextView tvPreview;
     private TextView tvName;
@@ -49,7 +52,6 @@ public class CallDetailActivity extends AppCompatActivity implements View.OnClic
     private int[] listImage = new int[6];
     private Gson gson;
     private String phone;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,7 @@ public class CallDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void iniUI() {
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
         gson = new Gson();
         imgEffect = findViewById(R.id.img_effect);
         tvPreview = findViewById(R.id.tv_preview);
@@ -69,6 +72,7 @@ public class CallDetailActivity extends AppCompatActivity implements View.OnClic
         tvEdit = findViewById(R.id.tv_edit);
         rlDetail = findViewById(R.id.rl_detail);
         tvContentDetail = findViewById(R.id.tv_content_detail);
+
         if (getIntent() != null) {
             try {
                 infoStyle = (InfoStyle) getIntent().getSerializableExtra("Info");

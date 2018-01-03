@@ -28,7 +28,10 @@
     <string name="message">Message</string>
     <string name="edit_screen">Edit Screen</string>
     <string name="take_screen">Take Screen</string>
+    <string name="choice_another_effect">You must pick another effect first!!! </string>
+    <string name="max_choice">Selected only maximum 10 item</string>
     <string name="send">Send</string>
-    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="interstitial_ads">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="admob_app_id">ca-app-pub-8239410640008358/8427287616</string>
+    <string name="interstitial_ads">ca-app-pub-8239410640008358/1032793577</string>
+    <!--ca-app-pub-8239410640008358/1032793577-->
 </resources>
