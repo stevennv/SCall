@@ -4,7 +4,6 @@
     android:id="@+id/rl_spash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/spash3"
     android:orientation="vertical">
 
     <Button
@@ -95,7 +94,7 @@
         android:layout_marginTop="220dp"
         android:drawablePadding="@dimen/padding_10"
         android:gravity="center"
-        android:textColor="@color/red"
+        android:textColor="@color/green"
         android:textSize="40dp" />
 
     <TextView
@@ -104,6 +103,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_name"
         android:gravity="center"
-        android:textColor="@color/red"
+        android:textColor="@color/green"
         android:textSize="22dp" />
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.steven.admin.scall.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,27 +52,33 @@ public class FragmentSpash extends Fragment implements View.OnClickListener {
         Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/Billfont.otf");
         tvName.setTypeface(font);
         tvPhone.setTypeface(font);
-        tvName.setText("Santa Claus");
+        tvName.setText("New Way");
         tvPhone.setText("+44 666 666 666 Calling");
         if (getArguments() != null) {
             check = getArguments().getInt("edttext");
             if (check == 0) {
-                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.anh1));
+                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.bg44));
                 btnNext.setVisibility(View.VISIBLE);
             } else if (check == 1) {
                 rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.anh1));
                 tvName.setText("My Love");
                 tvPhone.setText("+44 123 456 789 Calling");
+                tvName.setTextColor(Color.parseColor("#E77C7C"));
+                tvPhone.setTextColor(Color.parseColor("#E77C7C"));
                 btnNext.setVisibility(View.VISIBLE);
             } else if (check == 2) {
-                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.anh1));
+                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.bg22));
                 tvName.setText("My Pet");
                 tvPhone.setText("+44 987 654 321 Calling");
+                tvName.setTextColor(Color.parseColor("#00FFFF"));
+                tvPhone.setTextColor(Color.parseColor("#00FFFF"));
                 btnNext.setVisibility(View.VISIBLE);
             } else {
-                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.spash2));
+                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.bg33));
                 tvName.setText("Steven");
                 tvPhone.setText("+44 123 456 789 Calling");
+                tvName.setTextColor(Color.parseColor("#31bfed"));
+                tvPhone.setTextColor(Color.parseColor("#31bfed"));
                 btnStart.setVisibility(View.VISIBLE);
                 int bottomOfScreen = getResources().getDisplayMetrics()
                         .heightPixels / 2;
