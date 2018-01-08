@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.admin.scall.activity.EditNameActivity">
+    tools:context="com.steven.admin.scall.activity.EditNameActivity">
 
     <include layout="@layout/toolbar" />
 

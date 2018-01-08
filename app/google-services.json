@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1079985268482:android:7157840c55c6d179",
         "android_client_info": {
-          "package_name": "com.example.admin.scall"
+          "package_name": "com.steven.admin.scall"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "1079985268482-fnp1svbvieo8n0rqto2teakcme1il452.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.admin.scall",
+            "package_name": "com.steven.admin.scall",
             "certificate_hash": "19d2cfd9ec11eac05dc9dfc9f9e7445ce92fe556"
           }
         },

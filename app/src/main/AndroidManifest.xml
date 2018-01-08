@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.admin.scall">
+    package="com.steven.admin.scall">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -20,7 +20,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.steven.admin.scall.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -31,7 +31,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <activity
-            android:name=".activity.OnBoardingActivity"
+            android:name="com.steven.admin.scall.activity.OnBoardingActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,20 +40,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.DetailContactActivity"
+            android:name="com.steven.admin.scall.activity.DetailContactActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.ANSWER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.EditNameActivity"
+            android:name="com.steven.admin.scall.activity.EditNameActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ImagePickerActivity"
+            android:name="com.steven.admin.scall.activity.ImagePickerActivity"
             android:screenOrientation="portrait" />
 
-        <receiver android:name=".receiver.CallReceiver">
+        <receiver android:name="com.steven.admin.scall.receiver.CallReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
@@ -64,10 +64,10 @@
 
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.steven.admin.scall.activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.CallDetailActivity"
+            android:name="com.steven.admin.scall.activity.CallDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
