@@ -2,6 +2,7 @@ package com.steven.admin.scall.activity;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
@@ -17,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Window;
@@ -39,6 +41,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_CONTACTS;
+import static android.Manifest.permission.READ_PHONE_STATE;
+import static android.Manifest.permission.SEND_SMS;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 public class MainActivity extends BaseActivity {
     private Toolbar toolbar;
     private TextView tvTitleToolbar;
@@ -50,14 +59,19 @@ public class MainActivity extends BaseActivity {
     private PagerSlidingTabStrip tabs;
     private ViewPager viewPager;
     private Gson gson;
-//    private SwipeRefreshLayout refreshLayout;
+    //    private SwipeRefreshLayout refreshLayout;
+    boolean permissionReadContact, permissionReadPhoneState,
+            permissionWriteData,
+            permissionSendSMS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SEND_SMS, Manifest.permission.PROCESS_OUTGOING_CALLS},
+                new String[]{Manifest.permission.READ_CONTACTS
+//                        , Manifest.permission.READ_PHONE_STATE,
+//                        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SEND_SMS, Manifest.permission.PROCESS_OUTGOING_CALLS
+                },
                 RECORD_REQUEST_CODE);
         MobileAds.initialize(this, getString(R.string.admob_app_id));
         setContentView(R.layout.activity_main);
@@ -144,16 +158,113 @@ public class MainActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case RECORD_REQUEST_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getContactList();
-                    list1 = db.getAllStyle();
-                    ListPagerAdapter adapter = new ListPagerAdapter(getSupportFragmentManager());
-                    viewPager.setAdapter(adapter);
-                    tabs.setViewPager(viewPager);
-                    return;
+                if (grantResults.length > 0) {
+                    permissionReadContact = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if (permissionReadContact) {
+                        getContactList();
+                        list1 = db.getAllStyle();
+                        ListPagerAdapter adapter = new ListPagerAdapter(getSupportFragmentManager());
+                        viewPager.setAdapter(adapter);
+                        tabs.setViewPager(viewPager);
+                    } else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
+                                showMessageOKCancel("You need to allow access to both the permissions",
+                                        new ConfirmQuitDialog.clickBtn1() {
+                                            @Override
+                                            public void click() {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions(new String[]{READ_CONTACTS},
+                                                            RECORD_REQUEST_CODE);
+                                                }
+                                            }
+                                        });
+                                return;
+                            }
+                        }
+                    }
+
+//                    return;
                 }
+//                if (grantResults.length > 0) {
+//                    permissionReadPhoneState = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+//
+//                    if (permissionReadPhoneState) {
+//                    } else {
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                            if (shouldShowRequestPermissionRationale(READ_PHONE_STATE)) {
+//                                showMessageOKCancel("You need to allow access to both the permissions",
+//                                        new ConfirmQuitDialog.clickBtn1() {
+//                                            @Override
+//                                            public void click() {
+//                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                                                    requestPermissions(new String[]{READ_PHONE_STATE},
+//                                                            RECORD_REQUEST_CODE);
+//                                                }
+//                                            }
+//                                        });
+//                                return;
+//                            }
+//                        }
+//                    }
+//
+////                    return;
+//                }
+//                if (grantResults.length > 0) {
+//                    permissionWriteData = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+//
+//                    if (permissionWriteData) {
+//                    } else {
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                            if (shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
+//                                showMessageOKCancel("You need to allow access to both the permissions",
+//                                        new ConfirmQuitDialog.clickBtn1() {
+//                                            @Override
+//                                            public void click() {
+//                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                                                    requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE},
+//                                                            RECORD_REQUEST_CODE);
+//                                                }
+//                                            }
+//                                        });
+//                                return;
+//                            }
+//                        }
+//                    }
+//
+////                    return;
+//                }
+//                if (grantResults.length > 0) {
+//                    permissionSendSMS = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+//
+//                    if (permissionSendSMS) {
+//                    } else {
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                            if (shouldShowRequestPermissionRationale(SEND_SMS)) {
+//                                showMessageOKCancel("You need to allow access to both the permissions",
+//                                        new ConfirmQuitDialog.clickBtn1() {
+//                                            @Override
+//                                            public void click() {
+//                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                                                    requestPermissions(new String[]{SEND_SMS},
+//                                                            RECORD_REQUEST_CODE);
+//                                                }
+//                                            }
+//                                        });
+//                                return;
+//                            }
+//                        }
+//                    }
+//
+////                    return;
+//                }
+//                if (permissionReadContact == true && permissionReadPhoneState == true && permissionSendSMS == true && permissionWriteData == true) {
+//                    getContactList();
+//                    list1 = db.getAllStyle();
+//                    ListPagerAdapter adapter = new ListPagerAdapter(getSupportFragmentManager());
+//                    viewPager.setAdapter(adapter);
+//                    tabs.setViewPager(viewPager);
+//                }
             }
         }
     }
@@ -220,4 +331,22 @@ public class MainActivity extends BaseActivity {
             return TITLES.length;
         }
     }
+
+    private void showMessageOKCancel(String message, ConfirmQuitDialog.clickBtn1 okListener) {
+        ConfirmQuitDialog dialog = new ConfirmQuitDialog(this, "You need to allow access to the permissions", "Ok", "Cancel"
+                , okListener, new ConfirmQuitDialog.clickBtn2() {
+            @Override
+            public void click() {
+
+            }
+        });
+        dialog.show();
+//        new AlertDialog.Builder(MainActivity.this)
+//                .setMessage(message)
+//                .setPositiveButton("OK", okListener)
+//                .setNegativeButton("Cancel", null)
+//                .create()
+//                .show();
+    }
+
 }

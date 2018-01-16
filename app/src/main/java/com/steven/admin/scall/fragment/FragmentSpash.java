@@ -40,7 +40,6 @@ public class FragmentSpash extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_spash, container, false);
         mActivity = (OnBoardingActivity) getContext();
         utils = new SharedPreferencesUtils(getContext());
