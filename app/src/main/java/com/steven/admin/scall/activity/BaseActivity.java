@@ -57,16 +57,25 @@ public class BaseActivity extends AppCompatActivity {
         if (countActivity == 2) {
             mInterstitialAd = new InterstitialAd(this);
             mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ads));
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
             mInterstitialAd.setAdListener(adListener);
-            countActivity = 0;
-//            requestNewInterstitial();
+            mInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdClosed() {
+                    // Load the next interstitial.
+                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                }
+
+            });
+//            countActivity = 0;
+            requestNewInterstitial();
         }
         Log.d("onCreate123:", "onCreate: " + countActivity);
     }
 
     private void requestNewInterstitial() {
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("EE6061F76E1A5A87DCD512521BC294F9")
+//                .add("EE6061F76E1A5A87DCD512521BC294F9")
                 .build();
 
         mInterstitialAd.loadAd(adRequest);

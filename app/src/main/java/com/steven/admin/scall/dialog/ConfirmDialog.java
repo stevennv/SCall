@@ -2,6 +2,7 @@ package com.steven.admin.scall.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -29,7 +30,9 @@ public class ConfirmDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         setContentView(R.layout.dialog_confirm);
+
         tvContent = findViewById(R.id.tv_content_dialog);
         btnOk = findViewById(R.id.btn_ok);
         tvContent.setText(content);

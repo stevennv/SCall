@@ -27,7 +27,6 @@ public class CallReceiver extends BroadcastReceiver {
     private SqliteHelper db;
     private InfoStyle infoStyle;
     int state = 0;
-    private CountDownTimer couter;
 
     public void onCallStateChanged(Context context, int state, String number) {
         if (lastState == state) {
@@ -54,7 +53,6 @@ public class CallReceiver extends BroadcastReceiver {
                 }
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
-                couter.cancel();
                 //Transition of ringing->offhook are pickups of incoming calls.  Nothing done on them
                 if (lastState != TelephonyManager.CALL_STATE_RINGING) {
                     isIncoming = false;
@@ -73,12 +71,15 @@ public class CallReceiver extends BroadcastReceiver {
 
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
-                couter.cancel();
                 //Went to idle-  this is the end of a call.  What type depends on previous state(s)
                 if (lastState == TelephonyManager.CALL_STATE_RINGING) {
                     //Ring but no pickup-  a miss
 //                    Toast.makeText(context, "Ringing but no pickup" + savedNumber + " Call time " + callStartTime + " Date " + new Date(), Toast.LENGTH_SHORT).show();
-                    DetailContactActivity.myDialog.finish();
+                    try {
+                        DetailContactActivity.myDialog.finish();
+                    } catch (Exception e) {
+                        Log.e("LOG_ERROR ", e.getMessage());
+                    }
 
                 } else if (isIncoming) {
                     callEndTime = new Date();
@@ -134,17 +135,9 @@ public class CallReceiver extends BroadcastReceiver {
             } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                 state = TelephonyManager.CALL_STATE_RINGING;
             }
-            couter = new CountDownTimer(250, 250) {
-                @Override
-                public void onTick(long l) {
 
-                }
+            onCallStateChanged(context, state, number);
 
-                @Override
-                public void onFinish() {
-                    onCallStateChanged(context, state, number);
-                }
-            }.start();
 
         }
     }

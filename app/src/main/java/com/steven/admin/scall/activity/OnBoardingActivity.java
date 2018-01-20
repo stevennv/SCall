@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.steven.admin.scall.R;
 import com.steven.admin.scall.fragment.FragmentSpash;
+import com.steven.admin.scall.fragment.FragmentSpash2;
+import com.steven.admin.scall.fragment.FragmentSpash3;
+import com.steven.admin.scall.fragment.FragmentSpash4;
 import com.steven.admin.scall.utils.SharedPreferencesUtils;
 import com.layer_net.stepindicator.StepIndicator;
 
@@ -44,12 +47,25 @@ public class OnBoardingActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+            if (position == 0) {
+                Fragment fragment = new FragmentSpash();
+                return fragment;
+            } else if (position == 1) {
+                Fragment fragment = new FragmentSpash2();
+                return fragment;
+            } else if (position == 2) {
+                Fragment fragment = new FragmentSpash3();
+                return fragment;
+            } else {
+                Fragment fragment = new FragmentSpash4();
+                return fragment;
+            }
 //            if (position == 0) {
-            Fragment fragment = new FragmentSpash();
-            Bundle bundle = new Bundle();
-            bundle.putInt("edttext", position);
-            fragment.setArguments(bundle);
-            return fragment;
+//            Fragment fragment = new FragmentSpash();
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("edttext", position);
+//            fragment.setArguments(bundle);
+//            return fragment;
 //            } else if (position==1){
 //                Fragment fragment = new FragmentSpash2();
 //                Bundle bundle = new Bundle();

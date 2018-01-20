@@ -30,7 +30,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <activity
-            android:name="com.steven.admin.scall.activity.OnBoardingActivity"
+            android:name="com.steven.admin.scall.activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,9 +62,9 @@
         </receiver>
 
 
-        <activity
-            android:name="com.steven.admin.scall.activity.MainActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name="com.steven.admin.scall.activity.MainActivity"-->
+            <!--android:screenOrientation="portrait" />-->
         <activity
             android:name="com.steven.admin.scall.activity.CallDetailActivity"
             android:screenOrientation="portrait" />

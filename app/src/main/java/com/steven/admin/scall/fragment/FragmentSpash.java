@@ -3,6 +3,7 @@ package com.steven.admin.scall.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,8 +37,6 @@ public class FragmentSpash extends Fragment implements View.OnClickListener {
     private TextView tvPhone;
     private RelativeLayout rlSpash;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_spash, container, false);
@@ -53,41 +52,42 @@ public class FragmentSpash extends Fragment implements View.OnClickListener {
         tvPhone.setTypeface(font);
         tvName.setText("New Way");
         tvPhone.setText("+44 666 666 666 Calling");
-        if (getArguments() != null) {
-            check = getArguments().getInt("edttext");
-            if (check == 0) {
-                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.bg44));
+//        if (getArguments() != null) {
+//            check = getArguments().getInt("edttext");
+//            if (check == 0) {
+////                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.bg44));
+//                rlSpash.setBackground(getResources().getDrawable(R.drawable.bg44));
                 btnNext.setVisibility(View.VISIBLE);
-            } else if (check == 1) {
-                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.anh1));
-                tvName.setText("My Love");
-                tvPhone.setText("+44 123 456 789 Calling");
-                tvName.setTextColor(Color.parseColor("#E77C7C"));
-                tvPhone.setTextColor(Color.parseColor("#E77C7C"));
-                btnNext.setVisibility(View.VISIBLE);
-            } else if (check == 2) {
-                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.bg22));
-                tvName.setText("My Pet");
-                tvPhone.setText("+44 987 654 321 Calling");
-                tvName.setTextColor(Color.parseColor("#00FFFF"));
-                tvPhone.setTextColor(Color.parseColor("#00FFFF"));
-                btnNext.setVisibility(View.VISIBLE);
-            } else {
-                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.bg33));
-                tvName.setText("Steven");
-                tvPhone.setText("+44 123 456 789 Calling");
-                tvName.setTextColor(Color.parseColor("#31bfed"));
-                tvPhone.setTextColor(Color.parseColor("#31bfed"));
-                btnStart.setVisibility(View.VISIBLE);
-                int bottomOfScreen = getResources().getDisplayMetrics()
-                        .heightPixels / 2;
-                btnStart.animate()
-                        .translationY(bottomOfScreen)
-                        .setInterpolator(new AccelerateInterpolator())
-                        .setInterpolator(new BounceInterpolator())
-                        .setDuration(2000);
-            }
-        }
+//            } else if (check == 1) {
+//                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.anh1));
+//                tvName.setText("My Love");
+//                tvPhone.setText("+44 123 456 789 Calling");
+//                tvName.setTextColor(Color.parseColor("#E77C7C"));
+//                tvPhone.setTextColor(Color.parseColor("#E77C7C"));
+//                btnNext.setVisibility(View.VISIBLE);
+//            } else if (check == 2) {
+//                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.bg22));
+//                tvName.setText("My Pet");
+//                tvPhone.setText("+44 987 654 321 Calling");
+//                tvName.setTextColor(Color.parseColor("#00FFFF"));
+//                tvPhone.setTextColor(Color.parseColor("#00FFFF"));
+//                btnNext.setVisibility(View.VISIBLE);
+//            } else {
+//                rlSpash.setBackgroundDrawable(getContext().getDrawable(R.drawable.bg33));
+//                tvName.setText("Steven");
+//                tvPhone.setText("+44 123 456 789 Calling");
+//                tvName.setTextColor(Color.parseColor("#31bfed"));
+//                tvPhone.setTextColor(Color.parseColor("#31bfed"));
+//                btnStart.setVisibility(View.VISIBLE);
+//                int bottomOfScreen = getResources().getDisplayMetrics()
+//                        .heightPixels / 2;
+//                btnStart.animate()
+//                        .translationY(bottomOfScreen)
+//                        .setInterpolator(new AccelerateInterpolator())
+//                        .setInterpolator(new BounceInterpolator())
+//                        .setDuration(2000);
+//            }
+//        }
         btnNext.setOnClickListener(this);
         btnStart.setOnClickListener(this);
         return view;

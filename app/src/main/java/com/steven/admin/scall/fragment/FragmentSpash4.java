@@ -19,10 +19,10 @@ import com.steven.admin.scall.activity.OnBoardingActivity;
 import com.steven.admin.scall.utils.SharedPreferencesUtils;
 
 /**
- * Created by Admin on 12/13/2017.
+ * Created by Admin on 1/20/2018.
  */
 
-public class FragmentSpash2 extends Fragment implements View.OnClickListener {
+public class FragmentSpash4 extends Fragment implements View.OnClickListener {
     private Button btnStart;
     private Button btnNext;
     private int check;
@@ -47,21 +47,14 @@ public class FragmentSpash2 extends Fragment implements View.OnClickListener {
         tvPhone.setTypeface(font);
         tvName.setText("My Love");
         tvPhone.setText("+44 123 456 789 Calling");
-//        if (getArguments() != null) {
-//            check = getArguments().getInt("edttext");
-//            if (check == 3) {
-//                btnStart.setVisibility(View.VISIBLE);
-//                int bottomOfScreen = getResources().getDisplayMetrics()
-//                        .heightPixels / 2;
-//                btnStart.animate()
-//                        .translationY(bottomOfScreen)
-//                        .setInterpolator(new AccelerateInterpolator())
-//                        .setInterpolator(new BounceInterpolator())
-//                        .setDuration(2000);
-//            } else {
-                btnNext.setVisibility(View.VISIBLE);
-//            }
-//        }
+        btnStart.setVisibility(View.VISIBLE);
+        int bottomOfScreen = getResources().getDisplayMetrics()
+                .heightPixels / 2;
+        btnStart.animate()
+                .translationY(bottomOfScreen)
+                .setInterpolator(new AccelerateInterpolator())
+                .setInterpolator(new BounceInterpolator())
+                .setDuration(2000);
         btnNext.setOnClickListener(this);
         btnStart.setOnClickListener(this);
         return view;
@@ -81,3 +74,4 @@ public class FragmentSpash2 extends Fragment implements View.OnClickListener {
         }
     }
 }
+

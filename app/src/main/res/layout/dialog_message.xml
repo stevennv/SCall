@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/tv_send"
             android:hint="@string/enter_message"
-            android:maxLines="2"
+            android:maxLines="5"
             android:paddingLeft="@dimen/padding_10"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_16" />

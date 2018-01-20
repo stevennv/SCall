@@ -46,21 +46,21 @@ public class FragmentSpash3 extends Fragment implements View.OnClickListener {
         tvPhone.setTypeface(font);
         tvName.setText("My Pet");
         tvPhone.setText("+44 987 654 321 Calling");
-        if (getArguments() != null) {
-            check = getArguments().getInt("edttext");
-            if (check == 3) {
-                btnStart.setVisibility(View.VISIBLE);
-                int bottomOfScreen = getResources().getDisplayMetrics()
-                        .heightPixels / 2;
-                btnStart.animate()
-                        .translationY(bottomOfScreen)
-                        .setInterpolator(new AccelerateInterpolator())
-                        .setInterpolator(new BounceInterpolator())
-                        .setDuration(2000);
-            } else {
+//        if (getArguments() != null) {
+//            check = getArguments().getInt("edttext");
+//            if (check == 3) {
+//                btnStart.setVisibility(View.VISIBLE);
+//                int bottomOfScreen = getResources().getDisplayMetrics()
+//                        .heightPixels / 2;
+//                btnStart.animate()
+//                        .translationY(bottomOfScreen)
+//                        .setInterpolator(new AccelerateInterpolator())
+//                        .setInterpolator(new BounceInterpolator())
+//                        .setDuration(2000);
+//            } else {
                 btnNext.setVisibility(View.VISIBLE);
-            }
-        }
+//            }
+//        }
         btnNext.setOnClickListener(this);
         btnStart.setOnClickListener(this);
         return view;

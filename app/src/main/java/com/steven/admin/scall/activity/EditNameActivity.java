@@ -1,5 +1,6 @@
 package com.steven.admin.scall.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -10,7 +11,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,11 +36,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.InterstitialAd;
 import com.steven.admin.scall.R;
 import com.steven.admin.scall.adapter.EffectAdapter;
 import com.steven.admin.scall.adapter.FontAdapter;
 import com.steven.admin.scall.adapter.IconAdapter;
 import com.steven.admin.scall.adapter.SelectedAdapter;
+import com.steven.admin.scall.dialog.ConfirmDialog;
 import com.steven.admin.scall.dialog.ConfirmQuitDialog;
 import com.steven.admin.scall.model.Contact;
 import com.steven.admin.scall.model.InfoStyle;
@@ -53,6 +59,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -116,6 +125,7 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
     private String name;
     private int id;
     private String phone;
+    private static int RECORD_REQUEST_CODE = 102;
 //    private SqliteHelper db;
 
     @Override
@@ -123,6 +133,8 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_edit_name);
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.READ_CONTACTS}, RECORD_REQUEST_CODE);
         MobileAds.initialize(this, getString(R.string.admob_app_id));
         iniUI();
     }
@@ -238,6 +250,18 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
                     dropView.setDrawables(listImage);
                     dropView.startAnimation();
                     listIconString = infoStyle.getListIcon();
+                    arraySelected = gson.fromJson(listIconString, int[].class);
+                    for (int i = 0; i < arraySelected.length; i++) {
+                        listSelected.add(arraySelected[i]);
+                    }
+                    adapterSelected = new SelectedAdapter(EditNameActivity.this, listSelected, new SelectedAdapter.onClick() {
+                        @Override
+                        public void click(int pos) {
+
+                        }
+                    });
+                    adapterSelected.notifyDataSetChanged();
+                    rvListSelected.setAdapter(adapterSelected);
                 }
                 if (infoStyle.getIsFull() == 1) {
                     imgEffect.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -313,10 +337,11 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void click(int values) {
                 if (isAnother) {
-                    if (listSelected.size() < 11) {
+                    if (listSelected.size() < 10) {
                         listSelected.add(values);
 //                    arraySelected[posSelected] = values;
 //                    adapterSelected.notifyDataSetChanged();
+                        rvListSelected.scrollToPosition(posSelected);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -331,6 +356,13 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
 
 //                    rvListSelected.setAdapter(adapterSelected);
                         posSelected++;
+                        Log.d("click 1233:", "click: " + posSelected);
+//                        rvListSelected.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+
+//                            }
+//                        });
 
                     } else {
                         Toast.makeText(EditNameActivity.this, getString(R.string.max_choice), Toast.LENGTH_SHORT).show();
@@ -350,7 +382,8 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
         adapterSelected = new SelectedAdapter(EditNameActivity.this, listSelected, new SelectedAdapter.onClick() {
             @Override
             public void click(int pos) {
-
+                posSelected--;
+                rvListSelected.scrollToPosition(posSelected);
             }
         });
         adapterSelected.notifyDataSetChanged();
@@ -415,7 +448,6 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
                 dialog.show();
                 break;
             case R.id.img_menu_toolbar:
-
                 if (isAnother) {
                     arraySelected = new int[listSelected.size()];
                     for (int i = 0; i < listSelected.size(); i++) {
@@ -494,15 +526,25 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void saveAndUpdateStyle(InfoStyle info) {
+        String contentDialog = "";
         try {
             db.getStyleById(String.valueOf(id));
             db.updateStyle(info);
             Log.d("saveAndUpdateStyle: ", "saveAndUpdateStyle: " + db.updateStyle(info));
-            Toast.makeText(this, "Update", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Update", Toast.LENGTH_SHORT).show();
+            contentDialog = "Updated";
         } catch (Exception e) {
             db.addStyle(info);
-            Toast.makeText(this, "Add", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Add", Toast.LENGTH_SHORT).show();
+            contentDialog = "Added";
         }
+        ConfirmDialog dialog = new ConfirmDialog(this, contentDialog, new ConfirmDialog.clickConfirm() {
+            @Override
+            public void click() {
+                finish();
+            }
+        });
+        dialog.show();
     }
 
     private String formatNumber(String number) {
@@ -555,8 +597,6 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
         }
         return file;
     }
-
-
 }
 
 
