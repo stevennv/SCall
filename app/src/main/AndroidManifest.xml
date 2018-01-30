@@ -9,8 +9,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
-    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -19,7 +19,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name="com.steven.admin.scall.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
@@ -29,8 +29,9 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <activity
-            android:name="com.steven.admin.scall.activity.MainActivity"
+            android:name=".activity.SpashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,20 +40,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.steven.admin.scall.activity.DetailContactActivity"
+            android:name=".activity.DetailContactActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.ANSWER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.steven.admin.scall.activity.EditNameActivity"
+            android:name=".activity.EditNameActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.steven.admin.scall.activity.ImagePickerActivity"
+            android:name=".activity.ImagePickerActivity"
             android:screenOrientation="portrait" />
 
-        <receiver android:name="com.steven.admin.scall.receiver.CallReceiver">
+        <receiver android:name=".receiver.CallReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
@@ -61,17 +62,20 @@
             </intent-filter>
         </receiver>
 
-
-        <!--<activity-->
-            <!--android:name="com.steven.admin.scall.activity.MainActivity"-->
-            <!--android:screenOrientation="portrait" />-->
         <activity
-            android:name="com.steven.admin.scall.activity.CallDetailActivity"
+            android:name="com.steven.admin.scall.activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CallDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
+        <!--<activity-->
+        <!--android:name=".activity.SpashActivity"-->
+        <!--android:label="@string/title_activity_spash"-->
+        <!--android:theme="@style/AppTheme.NoActionBar"></activity>-->
     </application>
 
 </manifest>

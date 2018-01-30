@@ -56,19 +56,17 @@ public class BaseActivity extends AppCompatActivity {
         countActivity++;
         if (countActivity == 2) {
             mInterstitialAd = new InterstitialAd(this);
-            mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ads));
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
-            mInterstitialAd.setAdListener(adListener);
-            mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdClosed() {
-                    // Load the next interstitial.
-                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                }
+            mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ads));
+            AdRequest adRequest = new AdRequest.Builder()
+                    .build();
+            mInterstitialAd.loadAd(adRequest);
 
+            mInterstitialAd.setAdListener(new AdListener() {
+                public void onAdLoaded() {
+                    showInterstitial();
+                }
             });
-//            countActivity = 0;
-            requestNewInterstitial();
+            countActivity =0;
         }
         Log.d("onCreate123:", "onCreate: " + countActivity);
     }
@@ -84,5 +82,10 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+    private void showInterstitial() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
     }
 }

@@ -136,7 +136,11 @@ public class CallReceiver extends BroadcastReceiver {
                 state = TelephonyManager.CALL_STATE_RINGING;
             }
 
-            onCallStateChanged(context, state, number);
+            try{
+                onCallStateChanged(context, state, number);
+            } catch (Exception e){
+                Log.e("ABCDEF", "onReceive: "+ e.getMessage() );
+            }
 
 
         }

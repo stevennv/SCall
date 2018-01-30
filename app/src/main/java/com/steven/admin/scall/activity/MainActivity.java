@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -24,8 +25,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 import com.steven.admin.scall.R;
@@ -56,15 +59,17 @@ public class MainActivity extends BaseActivity {
     private PagerSlidingTabStrip tabs;
     private ViewPager viewPager;
     private Gson gson;
+    InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MobileAds.initialize(this, getString(R.string.admob_app_id));
         setContentView(R.layout.activity_main);
-
-
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
         iniUI();
+        String android_id = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        Log.e("CHECK_DEVICE_ID", "onCreate: " + android_id);
     }
 
     private void RequestMultiplePermission() {
@@ -96,7 +101,10 @@ public class MainActivity extends BaseActivity {
                 FivePermissionResult == PackageManager.PERMISSION_GRANTED;
     }
 
+
     private void iniUI() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
         gson = new Gson();
         List<InfoStyle> list2 = db.getAllStyle();
         for (int i = 0; i < list2.size(); i++) {
@@ -111,7 +119,6 @@ public class MainActivity extends BaseActivity {
         tabs.setTextColor(0xff2ac119);
         viewPager = findViewById(R.id.viewpager);
 
-        AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 //
         File rootPath = new File(Environment.getExternalStorageDirectory(), "Scall");
@@ -127,7 +134,6 @@ public class MainActivity extends BaseActivity {
             tabs.setViewPager(viewPager);
         } else {
             RequestMultiplePermission();
-
         }
     }
 

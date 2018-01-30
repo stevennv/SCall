@@ -564,7 +564,7 @@ public class EditNameActivity extends BaseActivity implements View.OnClickListen
             imagePath = receiver.getCroppedPath();
             Glide.with(this).load(imagePath).into(imgEffect);
         } else if (requestCode == IMAGE_CAMERA) {
-            if (data.getData() == null) {
+            if (data != null) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 if (photo != null) {
                     final File file = savebitmap(photo);

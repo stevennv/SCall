@@ -33,5 +33,6 @@
     <string name="send">Send</string>
     <string name="admob_app_id">ca-app-pub-8239410640008358/8427287616</string>
     <string name="interstitial_ads">ca-app-pub-8239410640008358/1032793577</string>
+    <string name="title_activity_spash">SpashActivity</string>
     <!--ca-app-pub-8239410640008358/1032793577-->
 </resources>
